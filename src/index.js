@@ -7,11 +7,18 @@
  Посмотрите как работает forEach и повторите это поведение для массива,
  который будет передан в параметре array
  */
-function forEach(array, fn) {
-  for (var i = 0; i < array.length; i++) {
-    fn = i;
+function forEach(array, fn = []) {
+  for (let i = 0; i < array.length; i++) {
+    fn.pull(array[i]);
+    console.log(fn);
   }
 }
+let mas = [2,5,48,6,23];
+forEach(mas);
+
+/*mas.forEach((mas, item) => {
+  console.log(item);
+});*/
 
 /*
  Задание 2:
