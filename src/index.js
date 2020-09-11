@@ -1,32 +1,29 @@
 /* ДЗ 2 - работа с массивами и объектами */
 
-/*
- Задание 1:
+/* Задание 1:
 
  Напишите аналог встроенного метода forEach для работы с массивами
- Посмотрите как работает forEach и повторите это поведение для массива,
- который будет передан в параметре array
+ Посмотрите как работает forEach и повторите это поведение для массива, который будет передан в параметре array
  */
-function forEach(array, fn = []) {
+
+function forEach(array, fn) {
+  let mas = [];
   for (let i = 0; i < array.length; i++) {
-    fn.pull(array[i]);
-    console.log(fn);
+    mas[i] = fn(array[i], i, array);
   }
 }
-let mas = [2,5,48,6,23];
-forEach(mas);
 
-/*mas.forEach((mas, item) => {
-  console.log(item);
-});*/
-
-/*
- Задание 2:
+/* Задание 2:
 
  Напишите аналог встроенного метода map для работы с массивами
  Посмотрите как работает map и повторите это поведение для массива, который будет передан в параметре array
  */
 function map(array, fn) {
+  let mas = [];
+  for (let i = 0; i < array.length; i++) {
+    mas[i] = fn(array[i], i, array);
+  }
+  return mas;
 }
 
 /*
@@ -36,10 +33,20 @@ function map(array, fn) {
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
 function reduce(array, fn, initial) {
+  let mas = [];
+
+  
+
 }
 
-/*
- Задание 4:
+// let mas = [1, 4, 9, 16];
+//
+// mas.reduce((item, i) => {
+//   console.log(i);
+// });
+
+
+/* Задание 4:
 
  Функция должна перебрать все свойства объекта, преобразовать их имена в верхний регистр и вернуть в виде массива
 
@@ -47,10 +54,14 @@ function reduce(array, fn, initial) {
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
 function upperProps(obj) {
+  let mas = [];
+  for (let item in obj) {
+    mas.push(item.toUpperCase());
+  }
+  return mas;
 }
 
-/*
- Задание 5 *:
+/*Задание 5:
 
  Напишите аналог встроенного метода slice для работы с массивами
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
