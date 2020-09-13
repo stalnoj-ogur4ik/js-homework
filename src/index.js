@@ -21,7 +21,7 @@ function forEach(array, fn) {
 function map(array, fn) {
   let mas = [];
   for (let i = 0; i < array.length; i++) {
-    mas[i] = fn(array[i], i, array);
+    mas.push(fn(array[i], i, array));
   }
   return mas;
 }
@@ -33,18 +33,15 @@ function map(array, fn) {
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
 function reduce(array, fn, initial) {
-  let mas = [];
+  if (initial === undefined) {
+    initial = array[0];
+  }
 
-  
+  for (let i = 0; i < array.length; i++)
+    initial = fn(initial, array[i], i, array);
 
+  return initial;
 }
-
-// let mas = [1, 4, 9, 16];
-//
-// mas.reduce((item, i) => {
-//   console.log(i);
-// });
-
 
 /* Задание 4:
 
@@ -66,23 +63,42 @@ function upperProps(obj) {
  Напишите аналог встроенного метода slice для работы с массивами
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
-function slice(array, from, to) {
+function slice(array, from = 0, to = array.length) {
+  let mas = [];
+
+  if (to > array.length) to = array.length;
+  if (from < 0 && from + to < 0) from = 0;
+  else if (from < 0) {
+    to = array.length;
+    from += to;
+  }
+
+  if (to < 0) to += array.length;
+
+  for (var i = from; i < to; i++) {
+    mas.push(array[i]);
+  }
+
+  return mas;
 }
 
 /*
  Задание 6 *:
 
  Функция принимает объект и должна вернуть Proxy для этого объекта
- Proxy должен перехватывать все попытки записи значений свойств и возводить это значение в квадрат
+ Proxy должен перехватывать все попытки записи значений свойств и
+ возводить это значение в квадрат
  */
+
 function createProxy(obj) {
+  return new Proxy(obj, {
+    get(obj, prop, receiver) {
+      if (prop in obj) {
+        return Reflect.get(obj, prop, receiver) * Reflect.get(obj, prop, receiver);
+      }
+      return 0;
+    }
+  });
 }
 
-export {
-    forEach,
-    map,
-    reduce,
-    upperProps,
-    slice,
-    createProxy
-};
+export {forEach, map, reduce, upperProps, slice, createProxy};
