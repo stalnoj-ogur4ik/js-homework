@@ -17,7 +17,16 @@
    isAllTrue([100, 2, 3, 4, 5], n => n < 10) // вернет false
  */
 function isAllTrue(array, fn) {
+  if (array == undefined || array.length == 0 || array.constructor !== Array)
+    throw Error("empty array");
+
+  if (typeof fn != "function") throw Error("fn is not a function");
+  for (let elem of array) {
+    if (!fn(elem)) return false;
+  }
+  return true;
 }
+//console.log(typeof (()=>1));
 
 /*
  Задание 2:
@@ -36,6 +45,14 @@ function isAllTrue(array, fn) {
    isSomeTrue([1, 2, 3, 4, 5], n => n > 20) // вернет false
  */
 function isSomeTrue(array, fn) {
+  if (array == undefined || array.length == 0 || array.constructor !== Array)
+    throw Error("empty array");
+
+  if (typeof fn != "function") throw Error("fn is not a function");
+  for (let elem of array) {
+    if (fn(elem)) return true;
+  }
+  return false;
 }
 
 /*
@@ -49,7 +66,17 @@ function isSomeTrue(array, fn) {
  3.3: Необходимо выбрасывать исключение в случаях:
    - fn не является функцией (с текстом "fn is not a function")
  */
-function returnBadArguments(fn) {
+function returnBadArguments(fn, ...array) {
+  if (typeof fn != "function") throw Error("fn is not a function");
+  let newArray = [];
+  for (let elem of array) {
+    try {
+      fn(elem);
+    } catch (e) {
+      newArray.push(elem);
+    }
+  }
+  return newArray;
 }
 
 /*
@@ -69,14 +96,48 @@ function returnBadArguments(fn) {
    - number не является числом (с текстом "number is not a number")
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
-function calculator() {
+function calculator(number = 0) {
+  if (typeof number != "number") throw Error("number is not a number");
+  let object = {
+    sum: function(...array) {
+      let rez = number;
+
+      for (let elem of array) {
+        rez += elem;
+      }
+      return rez;
+    },
+    dif: function(...array) {
+      let rez = number;
+      for (let elem of array) {
+        rez -= elem;
+      }
+      return rez;
+    },
+    div: function(...array) {
+      let rez = number;
+      for (let elem of array) {
+        if (elem == 0) throw Error("division by 0");
+        rez /= elem;
+      }
+      return rez;
+    },
+    mul: function(...array) {
+      let rez = number;
+      for (let elem of array) {
+        rez *= elem;
+      }
+      return rez;
+    }
+  };
+  return object;
 }
 
 /* При решении задач, пострайтесь использовать отладчик */
 
 export {
-    isAllTrue,
-    isSomeTrue,
-    returnBadArguments,
-    calculator
+  isAllTrue,
+  isSomeTrue,
+  returnBadArguments,
+  calculator
 };
